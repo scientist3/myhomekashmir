@@ -21,4 +21,8 @@ class Welcome extends CI_Controller
 		// Load view and display the data
 		$this->load->view('commingsoon', $data);
 	}
+	public function new()
+	{
+		$this->load->view('new_file_view.php');
+	}
 }
