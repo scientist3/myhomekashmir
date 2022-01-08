@@ -11,11 +11,17 @@ class Login extends CI_Controller
     // single model load but with renaming
     $this->load->model(['login/Login_model' => 'login']);
     $this->load->helper('url');
+    $this->load->library('session');
   }
 
   public function index()
   {
-    $this->load->view('login/login_view');
+    $data['input'] = [
+      'inputEmail' => $this->session->userdata('email'),
+      'inputPasswotd' => $this->session->userdata('psd')
+    ];
+
+    $this->load->view('login/login_view', $data);
   }
 
   public function checklogin()
@@ -26,6 +32,9 @@ class Login extends CI_Controller
       'psd'   => $this->input->post('pswd'),
       'saveme' => $this->input->post('reminder')
     ];
+
+    // Saving the input data on session
+    $this->session->set_userdata($data);
 
     //  Call the model and check the return result
     $isValid = $this->login->checkuser($data);
