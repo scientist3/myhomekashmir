@@ -15,4 +15,14 @@ class Login_model extends CI_Model
       }
     }
   }
+
+  public function getAllUsers()
+  {
+    return $this->db->select('*')->from('user_tbl')->get()->result();
+  }
+
+  public function insert($data = [])
+  {
+    return $this->db->insert('user_tbl', $data);
+  }
 }

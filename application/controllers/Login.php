@@ -12,6 +12,7 @@ class Login extends CI_Controller
     $this->load->model(['login/Login_model' => 'login']);
     $this->load->helper('url');
     $this->load->library('session');
+    $this->load->database();
   }
 
   public function index()
@@ -22,6 +23,31 @@ class Login extends CI_Controller
     ];
 
     $this->load->view('login/login_view', $data);
+  }
+
+  public function register()
+  {
+    $data['page'] = "Register";
+    $inputPostData = [
+      'u_id'      => NULL,
+      'u_name'      => $this->input->post('name'),
+      'u_phone'     => $this->input->post('phone'),
+      'u_email'     => $this->input->post('email'),
+      'u_username'  => $this->input->post('username'),
+      'u_password'  => $this->input->post('password'),
+      'u_doc'       => date('d-m-Y H:m:s'),
+      'u_dou'       => date('d-m-Y H:m:s'),
+      'u_status'    => 1
+    ];
+
+    $data['input'] = (object) $inputPostData;
+
+    $this->login->insert($inputPostData);
+
+    $data['users'] = $this->login->getAllUsers();
+
+    print_r($data['users']);
+    $this->load->view('login/register_view', $data);
   }
 
   public function checklogin()
